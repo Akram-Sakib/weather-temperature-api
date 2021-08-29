@@ -5,6 +5,25 @@
 // const temperature = document.getElementById("temperature");
 // const clouds      = document.getElementById("clouds");
 
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    console.log("Geolocation is not supported by this browser.");
+  }
+}
+getLocation();
+
+function showPosition(position) {
+  console.log(
+    "Latitude: " +
+    position.coords.latitude +
+    "<br>Longitude: " +
+    position.coords.longitude
+  );
+}
+
+
 const loadData = () => {
     const searchInput = document.getElementById("search-input");
     const locationName = searchInput.value
@@ -22,7 +41,12 @@ const displayData = (data) => {
     const city = document.getElementById("city");
     const temperature = document.getElementById("temperature");
     const clouds = document.getElementById("clouds");
-    city.innerText = data.name;
-    temperature.innerText = data.main.temp;
-    clouds.innerText = data.weather[0].main;
+
+    let {name} = data;
+    let {feels_like} = data.main
+    let {main} = data.weather[0];
+
+    city.innerText = name;
+    temperature.innerText = Math.round(feels_like - 273);
+    clouds.innerText = main;
 } 
