@@ -18,7 +18,6 @@ getLocation();
 function showPosition(position) {
   let latitude = position.coords.latitude;
   let longitude = position.coords.longitude;
-  console.log(latitude + " " + longitude);
 
   fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=18965afce882febf9aadfd33cb00024d`
@@ -48,15 +47,21 @@ const loadData = (currentCity) => {
 };
 
 const displayData = (data) => {
+  console.log(data);
   const city = document.getElementById("city");
   const temperature = document.getElementById("temperature");
+  const weatherImg = document.getElementById("weather-img");
   const clouds = document.getElementById("clouds");
 
   let { name } = data;
-  let { feels_like } = data.main;
-  let { main } = data.weather[0];
+  let { temp } = data.main;
+  let { main, icon } = data.weather[0];
 
+  weatherImg.setAttribute(
+    "src",
+    `https://openweathermap.org/img/wn/${icon}@2x.png`
+  );
   city.innerText = name;
-  temperature.innerText = Math.round(feels_like - 273);
+  temperature.innerText = Math.round(temp - 273);
   clouds.innerText = main;
 };
